@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Product>
+
+<div class="product-admin">
+    <div class="product-admin__title">Список товаров</div>
+    <div class="product-admin__search">
+        <form asp-action="SearchProduct" asp-controller="Product" method="get">
+            <label for="search" class="label">Поиск товаров</label>
+            <input type="text" name="productName" class="input" id="search">
+            <input type="submit" class="product-admin__search-btn">
+        </form>
+    </div>
+    <a asp-action="AddProduct" asp-controller="Product"><div class="product-admin__new-product btn">Добавить новый товар</div></a>
+    <div class="product-admin__products">
+        @foreach(var p in Model) {
+        <div class="product-admin__product">
+            <div class="product-admin__id">@p.Id</div>
+            @if(p.Photos.Count() != 0) { 
+            <div class="product-admin__img"><img src="~/img/products-photo/medium/@p.Photos.First().PhotoWay" alt=""></div>
+            }
+            <div class="product-admin__name">@p.Name</div>
+            <div class="product-admin__price">@p.Price грн</div>
+            <div class="product-admin__admin-buttons">
+                <div class="product-admin__admin-button"><a asp-action="UpdateProduct" asp-controller="Product" asp-route-productId="@p.Id">Редактировать</a></div>
+                @if (p.IsSeen == true)
+                {
+                    <div class="product-admin__admin-button"><a asp-action="HideProduct" asp-controller="Product" asp-route-productId="@p.Id">Скрыть</a></div>
+                }
+                else
+                {
+                    <div class="product-admin__admin-button"><a asp-action="ShowProduct" asp-controller="Product" asp-route-productId="@p.Id">Показать</a></div>
+                }
+                <div class="product-admin__admin-button"><a asp-action="DeleteProduct" asp-controller="Product" asp-route-productId="@p.Id">Удалить</a></div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

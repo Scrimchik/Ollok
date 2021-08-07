@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Product>
+
+<div class="wishlist-mask"></div>
+<div class="wishlist">
+    <div class="basket__header">
+        <div class="basket__title wishlist__title">Список понравившихся</div>
+        <div class="basket__close">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 612.043 612.043" style="enable-background:new 0 0 612.043 612.043;" xml:space="preserve">
+                <path d="M397.503,306.011l195.577-195.577c25.27-25.269,25.27-66.213,0-91.482c-25.269-25.269-66.213-25.269-91.481,0     L306.022,214.551L110.445,18.974c-25.269-25.269-66.213-25.269-91.482,0s-25.269,66.213,0,91.482L214.54,306.033L18.963,501.61     c-25.269,25.269-25.269,66.213,0,91.481c25.269,25.27,66.213,25.27,91.482,0l195.577-195.576l195.577,195.576     c25.269,25.27,66.213,25.27,91.481,0c25.27-25.269,25.27-66.213,0-91.481L397.503,306.011z" />
+            </svg>
+        </div>
+    </div>
+    @if (Model != null && Model.Count() != 0)
+    {
+        <div class="wishlist-products">
+            @foreach (var p in Model)
+            {
+                <div class="wishlist-products__item wishlist-product">
+                    <a asp-action="DeleteProduct" asp-controller="Wishlist" asp-route-productId="@p.Id">
+                        <div class="wishlist-product__delete-product">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 612.043 612.043" style="enable-background:new 0 0 612.043 612.043;" xml:space="preserve">
+                            <path d="M397.503,306.011l195.577-195.577c25.27-25.269,25.27-66.213,0-91.482c-25.269-25.269-66.213-25.269-91.481,0     L306.022,214.551L110.445,18.974c-25.269-25.269-66.213-25.269-91.482,0s-25.269,66.213,0,91.482L214.54,306.033L18.963,501.61     c-25.269,25.269-25.269,66.213,0,91.481c25.269,25.27,66.213,25.27,91.482,0l195.577-195.576l195.577,195.576     c25.269,25.27,66.213,25.27,91.481,0c25.27-25.269,25.27-66.213,0-91.481L397.503,306.011z" />
+                </svg>
+                        </div>
+                    </a>
+                    <a asp-controller="Product" asp-action="Product" asp-route-productName="@p.LatinName" asp-route-category="@p.Category.LatinName" asp-route-productId="@p.Id">
+                        <div class="wishlist-product__img">
+                            <img src="~/img/products-photo/medium/@p.Photos.First().PhotoWay" alt="">
+                        </div>
+                        <div class="wishlist-product__name">@p.Name</div>
+                    </a>
+                    <div class="wishlist-product__price">Цена: @p.Price UAH</div>
+                    <div class="wishlist-product__sizes">
+                        <div class="wishlist-product__size-titile">Размеры:</div>
+                        <div class="wishlist-product__sizes-block">
+                            @foreach (var s in p.Sizes)
+                            {
+                                <div class="wishlist-product__size">@s.SizeValue</div>
+                            }
+                        </div>
+                    </div>
+                    <div class="wishlist-product__button btn" data-id="@p.Id">В корзину</div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="product-none-alert">
+            <h1>Вы не добавили товары в список понравившихся</h1>
+        </div>
+    }
+</div>

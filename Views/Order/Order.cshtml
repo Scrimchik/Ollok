@@ -1,0 +1,52 @@
+﻿@model Order
+@{ 
+    ViewBag.Title = "Оформление заказа";
+}
+
+    <div class="order">
+        <div class="order__title">Оформление заказа</div>
+        <div class="order__flex">
+            <form asp-controller="Order" asp-action="AddOrder">
+                <input type="hidden" asp-for="CartId" value="@Model.Cart.Id" />
+                <div class="order__input">
+                    <label for="name" class="label">Имя получателя</label>
+                    <input type="text" asp-for="FirstName" required class="input">
+                    <span asp-validation-for="FirstName" class="validation"></span>
+                </div>
+                <div class="order__input">
+                    <label for="name" class="label">Фамилия получателя</label>
+                    <input type="text" id="name" asp-for="LastName" required class="input">
+                    <span asp-validation-for="LastName" class="validation"></span>
+                </div>
+                <div class="order__input">
+                    <label for="phone" class="label">Номер телефона</label>
+                    <input type="tel" id="phone" asp-for="PhoneNumber" required class="input">
+                    <span asp-validation-for="PhoneNumber" class="validation"></span>
+                </div>
+                <div class="order__check">
+                    <div class="order__check-title">Выберите способ доставки</div>
+                    <div class="order__check-input">
+                        <input type="radio" required id="poshta" asp-for="IsPickup" value="false">
+                        <label for="poshta" class="label">Доставка через новую почту</label>
+                    </div>
+                    <div class="order__poshta">
+                        <div class="order__input">
+                            <label for="city" class="label">Город</label>
+                            <input type="text" asp-for="City" class="input" />
+                        </div>
+                        <div class="order__input">
+                            <label for="branches" class="label">Отделение новой почты</label>
+                            <input type="text" asp-for="Mail" class="input"/>
+                        </div>
+                    </div>
+                    <div class="order__check-input">
+                        <input type="radio" required id="pickup" checked asp-for="IsPickup" value="true">
+                        <label for="pickup" class="label">Самовывоз из нашего магазина</label>
+                    </div>
+                </div>
+                <div class="order__info">Сумма заказа: @Model.OrderSum UAH</div>
+                <input type="submit" class="btn" value="Оформить заказ">
+            </form>
+           @await Html.PartialAsync("Partial/_CartOrderPartial.cshtml", Model.Cart)
+        </div>
+    </div>

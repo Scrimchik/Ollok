@@ -1,0 +1,15 @@
+﻿
+<div class="registration">
+    <div class="registration__titile">Вход в админ панель</div>
+    <form asp-action="Login" asp-controller="Account" class="registration__form">
+        <div class="registration__input">
+            <label for="name" class="label">Логин</label>
+            <input type="text" id="name" name="login" required class="input">
+        </div>
+        <div class="registration__input">
+            <label for="email" class="label">Пароль</label>
+            <input type="password" id="password" name="password" required class="input">
+        </div>
+        <input type="submit" class="registration__subm btn" value="Войти">
+    </form>
+</div>

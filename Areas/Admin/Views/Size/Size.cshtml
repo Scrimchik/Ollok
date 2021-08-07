@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Size>
+
+<div class="product-admin">
+    <div class="product-admin__title">Список размеров</div>
+    <a asp-action="AddSize" asp-controller="Size"><div class="product-admin__new-product btn">Добавить новый размер</div></a>
+    <div class="product-admin__products">
+        @foreach (var s in Model)
+        {
+            <div class="product-admin__product">
+                <div class="product-admin__id">@s.Id</div>
+                <div class="product-admin__name">@s.SizeValue</div>
+                <div class="product-admin__admin-buttons">
+                    <div class="product-admin__admin-button"><a asp-action="UpdateSize" asp-controller="Size" asp-route-sizeId="@s.Id">Редактировать</a></div>
+                    <div class="product-admin__admin-button"><a asp-action="DeleteSize" asp-controller="Size" asp-route-sizeId="@s.Id">Удалить</a></div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

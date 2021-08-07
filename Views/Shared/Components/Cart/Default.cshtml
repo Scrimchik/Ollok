@@ -1,0 +1,68 @@
+﻿@model CartViewModel
+
+<div class="basket__mask"></div>
+<div class="basket">
+    <div class="basket__header">
+        <div class="basket__title">Корзина</div>
+        <div class="basket__close">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 612.043 612.043" style="enable-background:new 0 0 612.043 612.043;" xml:space="preserve">
+            <path d="M397.503,306.011l195.577-195.577c25.27-25.269,25.27-66.213,0-91.482c-25.269-25.269-66.213-25.269-91.481,0     L306.022,214.551L110.445,18.974c-25.269-25.269-66.213-25.269-91.482,0s-25.269,66.213,0,91.482L214.54,306.033L18.963,501.61     c-25.269,25.269-25.269,66.213,0,91.481c25.269,25.27,66.213,25.27,91.482,0l195.577-195.576l195.577,195.576     c25.269,25.27,66.213,25.27,91.481,0c25.27-25.269,25.27-66.213,0-91.481L397.503,306.011z" />
+            </svg>
+        </div>
+    </div>
+    <div class="basket__info basket-info">
+        <div class="basket-info__titles">
+            <div class="basket-info__item">Размер</div>
+            <div class="basket-info__item">Количевство</div>
+            <div class="basket-info__item">Цена</div>
+        </div>
+    </div>
+    @if (Model.Cart != null && Model.Cart.CartLines.Count() != 0)
+    {
+        <div class="basket__products basket-products">
+
+            @foreach (var p in Model.Cart.CartLines)
+            {
+                <div class="basket-product">
+                    <a asp-controller="Product" asp-action="Product" asp-route-productName="@p.Product.LatinName" asp-route-category="@p.Product.Category.LatinName" asp-route-productId="@p.Product.Id">
+                        <div class="basket-product__info1">
+                            <div class="basket-product__photo"><img src="~/img/products-photo/medium/@p.Product.Photos.First().PhotoWay" alt=""></div>
+                            <div class="basket-product__name">@p.Product.Name</div>
+                        </div>
+                    </a>
+                    <div class="basket-product__info2">
+                        <div class="basket-product__size">@p.SizeValue</div>
+                        <div class="basket-product__quan product-quantity">
+                            <div class="product-quantity__minus" data-id="@p.Id">-</div>
+                            <div class="product-quantity__number">@p.ProductSum</div>
+                            <div class="product-quantity__plus" data-id="@p.Id">+</div>
+                        </div>
+                        <div class="basket-product__price">@p.productCost UAH</div>
+                        <div class="basket-product__delete" data-id="@p.Id">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 612.043 612.043" style="enable-background:new 0 0 612.043 612.043;" xml:space="preserve">
+                            <path d="M397.503,306.011l195.577-195.577c25.27-25.269,25.27-66.213,0-91.482c-25.269-25.269-66.213-25.269-91.481,0     L306.022,214.551L110.445,18.974c-25.269-25.269-66.213-25.269-91.482,0s-25.269,66.213,0,91.482L214.54,306.033L18.963,501.61     c-25.269,25.269-25.269,66.213,0,91.481c25.269,25.27,66.213,25.27,91.482,0l195.577-195.576l195.577,195.576     c25.269,25.27,66.213,25.27,91.481,0c25.27-25.269,25.27-66.213,0-91.481L397.503,306.011z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div class="basket__footer basket-footer">
+            <div class="basket-footer__cont btn">Продолжить покупки</div>
+            <div class="basket-footer__make-order">
+                <div class="basket-footer__total-price">@Model.cartSum UAH</div>
+                <a asp-action="Order" asp-controller="Order"><div class="basket-footer__order-btn btn">Оформить заказ</div></a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="product-none-alert">
+            <h1>Товаров в корзине нет</h1>
+        </div>
+        <div class="basket__footer basket-footer">
+            <div class="basket-footer__cont btn">Продолжить покупки</div>
+        </div>
+    }
+</div>

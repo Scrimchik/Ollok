@@ -1,0 +1,31 @@
+[
+  {
+    "outputFileName": "wwwroot/css/style.min.css",
+    "inputFiles": [
+      "wwwroot/css/style.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/admin.min.css",
+    "inputFiles": [
+      "wwwroot/css/admin.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/bundle.js",
+    "inputFiles": [
+      "wwwroot/js/script.js",
+      "wwwroot/js/mobile-filter.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  }
+]

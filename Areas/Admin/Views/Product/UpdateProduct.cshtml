@@ -1,0 +1,72 @@
+﻿@model UpdateProductViewModel
+
+<div class="product-editing">
+    <form method="Post" asp-action="UpdateProduct" asp-controller="Product" enctype="multipart/form-data">
+        <input type="text" asp-for="Product.Id" hidden/>
+        <input type="text" asp-for="Product.CategoryId" hidden/>
+        <div class="product-editing__img-block">
+            @foreach(var p in Model.Product.Photos) { 
+            <div class="product-editing__img">
+                <a asp-action="DeleteProductPhoto" asp-controller="Product" asp-route-photoId="@p.Id" asp-route-productId="@Model.Product.Id">
+                    <div class="product-editing__delete-img">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 612.043 612.043" style="enable-background:new 0 0 612.043 612.043;" xml:space="preserve">
+                        <path d="M397.503,306.011l195.577-195.577c25.27-25.269,25.27-66.213,0-91.482c-25.269-25.269-66.213-25.269-91.481,0     L306.022,214.551L110.445,18.974c-25.269-25.269-66.213-25.269-91.482,0s-25.269,66.213,0,91.482L214.54,306.033L18.963,501.61     c-25.269,25.269-25.269,66.213,0,91.481c25.269,25.27,66.213,25.27,91.482,0l195.577-195.576l195.577,195.576     c25.269,25.27,66.213,25.27,91.481,0c25.27-25.269,25.27-66.213,0-91.481L397.503,306.011z" />
+                    </svg>
+                    </div>
+                </a>
+                <img src="~/img/products-photo/large/@p.PhotoWay" alt="">
+            </div>
+            }
+            <div class="product-editing__add-img">
+                <input type="file" name="photos" id="input__file" class="input input__file" multiple>
+                <label for="input__file" class="input__file-button">
+                    <span class="input__file-icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40px" id="plus-add-more-detail" version="1.1" viewBox="0 0 15 15" xml:space="preserve"><path d="M7.5,0C3.364,0,0,3.364,0,7.5S3.364,15,7.5,15S15,11.636,15,7.5S11.636,0,7.5,0z M7.5,14C3.916,14,1,11.084,1,7.5  S3.916,1,7.5,1S14,3.916,14,7.5S11.084,14,7.5,14z" /><polygon points="8,3.5 7,3.5 7,7 3.5,7 3.5,8 7,8 7,11.5 8,11.5 8,8 11.5,8 11.5,7 8,7 " /></svg>
+                    </span>
+                </label>
+            </div>
+        </div>
+        <div class="product-editing__info">
+            <div class="product-editing__info1">
+                <div class="product-editing__name ">
+                    <label for="name" class="label label-product">Название:</label><br>
+                    <input type="text" id="name" asp-for="Product.Name" class="input input-product" required>
+                </div>
+                <div class="product-editing__name ">
+                    <label for="latin-name" class="label label-product">Название на латинице:</label><br>
+                    <input type="text" id="latinname" asp-for="Product.LatinName" class="input input-product" required>
+                </div>
+                <div class="product-editing__price">
+                    <label for="price" class="label label-product">Цена:</label><br>
+                    <input type="text" id="price" asp-for="Product.Price" class="input input-product" required>
+                </div>
+            </div>
+            <div class="product-editing__sizes">
+                <label for="size" class="label label-product">Размеры:</label><br>
+                @foreach (var s in Model.Sizes)
+                {
+                    <div class="product-editing__size">
+                        @if(Model.Product.Sizes.Any(t => t.Id == s.Id)) {
+                        <input type="checkbox" id="size" name="sizes" checked value="@s.SizeValue">
+                        }
+                        else
+                        {
+                        <input type="checkbox" id="size" name="sizes" value="@s.SizeValue">
+                        }
+                        <div class="product-editing__size-value">@s.SizeValue</div>     
+                    </div>
+                }
+                </div>
+            <div class="product-editing__info2">
+                <div class="product-editing__color">
+                    <label for="color" class="label label-product">Цвет:</label><br>
+                    <input type="text" id="color" asp-for="Product.Color" class="input input-product" required>
+                </div>
+            </div>
+            <div class="product-editing__submit">
+                <input type="submit" class="btn" value="Редактировать">
+            </div>
+        </div>
+    </form>
+</div>
+

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Этот файл используется процессом публикации или упаковки вашего веб-проекта. Можно настроить поведение этого процесса,
+изменив этот файл MSBuild. Подробности см. на странице https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword />
+    <_PublishTargetUrl>ftp://Ollok.somee.com/www.Ollok.somee.com</_PublishTargetUrl>
+    <History>True|2021-08-07T13:39:03.4906067Z;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.Development.json">
+      <publishTime>04/30/2021 14:36:06</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>08/07/2021 15:48:24</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Cryptography.Internal.dll">
+      <publishTime>04/23/2021 18:28:58</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Cryptography.KeyDerivation.dll">
+      <publishTime>04/23/2021 18:28:58</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll">
+      <publishTime>04/23/2021 18:30:54</publishTime>
+    </File>
+    <File Include="Microsoft.Data.SqlClient.dll">
+      <publishTime>08/25/2020 23:24:48</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Abstractions.dll">
+      <publishTime>04/13/2021 20:57:26</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.dll">
+      <publishTime>04/13/2021 20:57:42</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Relational.dll">
+      <publishTime>04/13/2021 20:57:54</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.SqlServer.dll">
+      <publishTime>04/13/2021 20:57:58</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.DependencyInjection.dll">
+      <publishTime>11/26/2020 01:59:12</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.Identity.Core.dll">
+      <publishTime>04/23/2021 18:29:28</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.Identity.Stores.dll">
+      <publishTime>04/23/2021 18:29:34</publishTime>
+    </File>
+    <File Include="Microsoft.Identity.Client.dll">
+      <publishTime>05/18/2020 20:11:54</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.JsonWebTokens.dll">
+      <publishTime>10/18/2019 23:39:24</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Logging.dll">
+      <publishTime>10/18/2019 23:40:20</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Protocols.dll">
+      <publishTime>10/18/2019 23:41:02</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Protocols.OpenIdConnect.dll">
+      <publishTime>10/18/2019 23:48:48</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Tokens.dll">
+      <publishTime>10/18/2019 23:43:40</publishTime>
+    </File>
+    <File Include="Newtonsoft.Json.dll">
+      <publishTime>08/16/2019 07:22:39</publishTime>
+    </File>
+    <File Include="Ollok.deps.json">
+      <publishTime>08/07/2021 16:33:52</publishTime>
+    </File>
+    <File Include="Ollok.dll">
+      <publishTime>08/07/2021 16:33:38</publishTime>
+    </File>
+    <File Include="Ollok.exe">
+      <publishTime>08/07/2021 16:33:38</publishTime>
+    </File>
+    <File Include="Ollok.pdb">
+      <publishTime>08/07/2021 16:33:38</publishTime>
+    </File>
+    <File Include="Ollok.runtimeconfig.json">
+      <publishTime>07/14/2021 17:50:07</publishTime>
+    </File>
+    <File Include="Ollok.Views.dll">
+      <publishTime>08/07/2021 16:33:41</publishTime>
+    </File>
+    <File Include="Ollok.Views.pdb">
+      <publishTime>08/07/2021 16:33:41</publishTime>
+    </File>
+    <File Include="runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.dll">
+      <publishTime>02/16/2021 21:59:26</publishTime>
+    </File>
+    <File Include="runtimes/unix/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll">
+      <publishTime>08/25/2020 23:25:12</publishTime>
+    </File>
+    <File Include="runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>08/25/2020 20:34:56</publishTime>
+    </File>
+    <File Include="runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.pdb">
+      <publishTime>08/25/2020 20:31:56</publishTime>
+    </File>
+    <File Include="runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>08/25/2020 20:35:06</publishTime>
+    </File>
+    <File Include="runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.pdb">
+      <publishTime>08/25/2020 20:31:56</publishTime>
+    </File>
+    <File Include="runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>08/25/2020 20:34:56</publishTime>
+    </File>
+    <File Include="runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.pdb">
+      <publishTime>08/25/2020 20:31:56</publishTime>
+    </File>
+    <File Include="runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>08/25/2020 20:34:56</publishTime>
+    </File>
+    <File Include="runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.pdb">
+      <publishTime>08/25/2020 20:31:56</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll">
+      <publishTime>02/16/2021 22:00:24</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll">
+      <publishTime>08/25/2020 23:24:48</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netstandard2.0/System.Runtime.Caching.dll">
+      <publishTime>11/15/2019 08:53:44</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>11/15/2019 08:53:46</publishTime>
+    </File>
+    <File Include="System.Configuration.ConfigurationManager.dll">
+      <publishTime>11/15/2019 08:37:04</publishTime>
+    </File>
+    <File Include="System.Diagnostics.DiagnosticSource.dll">
+      <publishTime>12/12/2020 02:40:42</publishTime>
+    </File>
+    <File Include="System.Drawing.Common.dll">
+      <publishTime>02/16/2021 22:00:12</publishTime>
+    </File>
+    <File Include="System.IdentityModel.Tokens.Jwt.dll">
+      <publishTime>10/18/2019 23:38:18</publishTime>
+    </File>
+    <File Include="System.Runtime.Caching.dll">
+      <publishTime>11/15/2019 08:37:36</publishTime>
+    </File>
+    <File Include="System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>11/15/2019 08:37:42</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>08/07/2021 16:33:52</publishTime>
+    </File>
+    <File Include="wwwroot/css/admin.css">
+      <publishTime>07/21/2021 15:40:17</publishTime>
+    </File>
+    <File Include="wwwroot/css/admin.min.css">
+      <publishTime>07/21/2021 15:40:19</publishTime>
+    </File>
+    <File Include="wwwroot/css/style.css">
+      <publishTime>07/22/2021 16:03:59</publishTime>
+    </File>
+    <File Include="wwwroot/css/style.min.css">
+      <publishTime>07/22/2021 16:03:46</publishTime>
+    </File>
+    <File Include="wwwroot/favicon.ico">
+      <publishTime>06/09/2021 18:28:16</publishTime>
+    </File>
+    <File Include="wwwroot/fonts/19572.ttf">
+      <publishTime>03/31/2021 16:17:30</publishTime>
+    </File>
+    <File Include="wwwroot/fonts/20029.ttf">
+      <publishTime>12/19/2020 12:29:00</publishTime>
+    </File>
+    <File Include="wwwroot/fonts/Exo2-Bold.ttf">
+      <publishTime>12/03/2013 22:00:00</publishTime>
+    </File>
+    <File Include="wwwroot/fonts/Exo2-Regular.ttf">
+      <publishTime>12/03/2013 22:00:00</publishTime>
+    </File>
+    <File Include="wwwroot/fonts/Roboto-Medium.ttf">
+      <publishTime>01/08/2013 22:00:00</publishTime>
+    </File>
+    <File Include="wwwroot/fonts/Roboto-Regular.ttf">
+      <publishTime>01/08/2013 22:00:00</publishTime>
+    </File>
+    <File Include="wwwroot/img/admin/magnifying-glass.svg">
+      <publishTime>05/20/2021 08:53:37</publishTime>
+    </File>
+    <File Include="wwwroot/img/products-photo/imgonline-com-ua-Resize-Ggo41wHhmEwO3re.jpg">
+      <publishTime>04/13/2021 17:08:42</publishTime>
+    </File>
+    <File Include="wwwroot/img/products-photo/imgonline-com-ua-Resize-QCeqFDLHXVHlbCjE.jpg">
+      <publishTime>04/19/2021 15:41:00</publishTime>
+    </File>
+    <File Include="wwwroot/js/admin.js">
+      <publishTime>05/25/2021 00:22:58</publishTime>
+    </File>
+    <File Include="wwwroot/js/admin.min.js">
+      <publishTime>05/31/2021 18:28:49</publishTime>
+    </File>
+    <File Include="wwwroot/js/bundle.js">
+      <publishTime>07/18/2021 19:03:10</publishTime>
+    </File>
+    <File Include="wwwroot/js/bundle.min.js">
+      <publishTime>07/18/2021 19:03:10</publishTime>
+    </File>
+    <File Include="wwwroot/js/mobile-filter.js">
+      <publishTime>06/06/2021 18:53:00</publishTime>
+    </File>
+    <File Include="wwwroot/js/mobile-filter.min.js">
+      <publishTime>06/06/2021 16:30:38</publishTime>
+    </File>
+    <File Include="wwwroot/js/script.js">
+      <publishTime>07/18/2021 19:03:10</publishTime>
+    </File>
+    <File Include="wwwroot/js/script.min.js">
+      <publishTime>06/06/2021 16:31:11</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery-slider/ionrange.min.css">
+      <publishTime>05/06/2021 14:34:06</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery-slider/ionrange.min.js">
+      <publishTime>05/06/2021 14:33:14</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery/jquery.min.js">
+      <publishTime>05/06/2021 14:32:32</publishTime>
+    </File>
+    <File Include="wwwroot/lib/venobox/venobox.min.css">
+      <publishTime>03/15/2021 21:25:34</publishTime>
+    </File>
+    <File Include="wwwroot/lib/venobox/venobox.min.js">
+      <publishTime>03/15/2021 21:25:34</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,9 @@
+﻿@model IEnumerable<Category>
+
+<nav class="nav-menu content__menu">
+    <div class="nav-menu__item"><a asp-action="List" asp-route-categoryName="@null" asp-route-productPage="@null">Новинки</a></div>
+    @foreach (var str in Model)
+    {
+        <div class="nav-menu__item"><a asp-action="List" asp-route-categoryName="@str.LatinName" asp-route-productPage="@null">@str.Name</a></div>
+    }
+</nav>

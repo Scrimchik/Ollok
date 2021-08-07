@@ -1,0 +1,17 @@
+﻿@model Size
+
+<div class="product-editing">
+    <form method="Post" asp-action="AddSize" asp-controller="Size">
+        <div class="product-editing__info">
+            <div class="product-editing__info1">
+                <div class="product-editing__name ">
+                    <label for="name" class="label label-product">Размер:</label><br>
+                    <input type="text" id="name" asp-for="SizeValue" class="input input-product" required>
+                </div>
+            </div>
+            <div class="product-editing__submit">
+                <input type="submit" class="btn" value="Добавить">
+            </div>
+        </div>
+    </form>
+</div>

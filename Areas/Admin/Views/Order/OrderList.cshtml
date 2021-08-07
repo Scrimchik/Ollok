@@ -1,0 +1,37 @@
+﻿@model List<Order>
+
+    <div class="product-admin">
+        <div class="product-admin__title">Список заказов</div>
+        <div class="product-admin__search">
+            <form method="get" asp-action="FindOrder" asp-controller="Order">
+                <label for="search" class="label">Поиск заказов</label>
+                <input type="text" required name="orderId" class="input" id="search">
+                <input type="submit" class="product-admin__search-btn">
+            </form>
+        </div>
+        <div class="orders-filtr">
+            <a asp-action="OrderList" asp-controller="Order" asp-route-status="В ожидании"><div class="btn">В ожидании</div></a>
+            <a asp-action="OrderList" asp-controller="Order" asp-route-status="Принятый"><div class="btn">Принятые</div></a>
+            <a asp-action="OrderList" asp-controller="Order" asp-route-status="Отклонённый"><div class="btn">Отклонённые</div></a>
+            <a asp-action="OrderList" asp-controller="Order" asp-route-status="Выполнен"><div class="btn">Выполненые</div></a>
+        </div>
+        <div class="product-admin__products">
+            @foreach (var o in Model) {
+            <div class="product-admin__product">
+                <div class="product-admin__id order-admin__id">Номер заказа №@o.Id</div>
+                <div class="product-admin__cost">@o.Status</div>
+                <div class="order-admin__admin-buttons">
+                    <div class="order-admin__admin-buttons-1">
+                        <div class="product-admin__admin-button order-admin__admin-button"><a asp-action="Order" asp-controller="Order" asp-route-orderId="@o.Id">Детали заказа</a></div>
+                        <div class="product-admin__admin-button order-admin__admin-button"><a asp-action="ChangeStatus" asp-controller="Order" asp-route-orderId="@o.Id" asp-route-status="Принятый">Принять заказ</a></div>
+                        <div class="product-admin__admin-button order-admin__admin-button"><a asp-action="ChangeStatus" asp-controller="Order" asp-route-orderId="@o.Id" asp-route-status="Отменённый">Отменить заказ</a></div>
+                    </div>
+                    <div class="order-admin__admin-buttons-2">
+                        <div class="product-admin__admin-button order-admin__admin-button"><a asp-action="ChangeStatus" asp-controller="Order" asp-route-orderId="@o.Id" asp-route-status="Выполнен">Заказ выполнен</a></div>
+                        <div class="product-admin__admin-button order-admin__admin-button"><a asp-action="DeleteOrder" asp-controller="Order" asp-route-orderId="@o.Id">Удалить</a></div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>

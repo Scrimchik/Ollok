@@ -1,0 +1,79 @@
+﻿@model ProductViewModel
+@{
+    ViewBag.Title = Model.Product.Name;
+    ViewBag.Meta = Model.Product.Name;
+    ViewBag.MetaPic = Model.Product.Photos.First().PhotoWay;
+    ViewBag.MetaUrlCategory = Model.Product.Category.LatinName;
+    ViewBag.MetaProductName = Model.Product.LatinName;
+    ViewBag.MetaProductId = Model.Product.Id;
+}
+
+<div class="product-page">
+    <div class="product-page__slider slider">
+        <div class="slider__btn" id="previous">
+            <svg viewBox="0 0 100 100" xml:space="preserve">
+            <path d="M70.787,27.267v8.294c0,0.571-0.305,1.1-0.8,1.385L49.776,48.615c-1.066,0.616-1.066,2.155,0,2.771l20.212,11.669   c0.495,0.286,0.8,0.814,0.8,1.385v8.294c0,1.231-1.333,2.001-2.399,1.385L29.013,51.385c-1.066-0.616-1.066-2.155,0-2.771   l39.375-22.733C69.454,25.266,70.787,26.035,70.787,27.267z" /><path d="M69.987,63.055l-2.376-1.372c-0.013,0.043-0.023,0.09-0.032,0.136l0.409,0.236c0.495,0.286,0.8,0.814,0.8,1.385v8.294   c0,1.008-0.894,1.693-1.803,1.575l1.404,0.81c1.066,0.616,2.399-0.154,2.399-1.385V64.44C70.787,63.868,70.482,63.34,69.987,63.055   z" /><path d="M49.776,48.615l20.212-11.669c0.495-0.286,0.8-0.814,0.8-1.385v-8.294c0-1.115-1.092-1.84-2.091-1.512   c0.054,0.16,0.091,0.328,0.091,0.512v8.294c0,0.571-0.305,1.1-0.8,1.385L47.776,47.615c-0.078,0.052-0.745,0.516-0.8,1.385   c-0.057,0.911,0.609,1.467,0.673,1.518c0.639,0.443,1.277,0.885,1.916,1.328c-0.032-0.112-0.07-0.312,0.019-0.51   c0.011-0.025,0.024-0.049,0.037-0.07C48.725,50.593,48.768,49.196,49.776,48.615z" /><path d="M70.787,27.267v8.294c0,0.571-0.305,1.1-0.8,1.385L49.776,48.615   c-1.066,0.616-1.066,2.155,0,2.771l20.212,11.669c0.495,0.286,0.8,0.814,0.8,1.385v8.294c0,1.231-1.333,2.001-2.399,1.385   L29.013,51.385c-1.066-0.616-1.066-2.155,0-2.771l39.375-22.733C69.454,25.266,70.787,26.035,70.787,27.267z" />
+            </svg>
+        </div>
+        <div class="slider__img-block">
+            @foreach (var p in Model.Product.Photos)
+            {
+                if (p == Model.Product.Photos[0])
+                {
+                    <div class="slider__img slider__img_selected"><a class="venobox" data-gall="myGallery" href="~/img/products-photo/large/@p.PhotoWay"><img src="~/img/products-photo/large/@p.PhotoWay" alt=""></a></div>
+                }
+                else
+                {
+                    <div class="slider__img"><a class="venobox" data-gall="myGallery" href="~/img/products-photo/large/@p.PhotoWay"><img src="~/img/products-photo/large/@p.PhotoWay" alt=""></a></div>
+                }
+            }
+        </div>
+        <div class="slider__btn" id="next">
+            <svg viewBox="0 0 100 100" xml:space="preserve">
+            <path d="M28.213,27.267v8.294c0,0.571,0.305,1.1,0.8,1.385l20.212,11.669c1.066,0.616,1.066,2.155,0,2.771L29.013,63.055   c-0.495,0.286-0.8,0.814-0.8,1.385v8.294c0,1.231,1.333,2.001,2.399,1.385l39.375-22.733c1.066-0.616,1.066-2.155,0-2.771   L30.612,25.881C29.546,25.266,28.213,26.035,28.213,27.267z" /><path d="M69.987,48.615L30.612,25.881c-0.193-0.112-0.395-0.164-0.597-0.19l37.972,21.923c1.066,0.616,1.066,2.155,0,2.771   L28.612,73.119c-0.1,0.058-0.205,0.092-0.308,0.126c0.308,0.914,1.401,1.398,2.308,0.874l39.375-22.733   C71.054,50.77,71.054,49.23,69.987,48.615z" /><path d="M28.213,27.267v8.294c0,0.571,0.305,1.1,0.8,1.385l20.212,11.669   c1.066,0.616,1.066,2.155,0,2.771L29.013,63.055c-0.495,0.286-0.8,0.814-0.8,1.385v8.294c0,1.231,1.333,2.001,2.399,1.385   l39.375-22.733c1.066-0.616,1.066-2.155,0-2.771L30.612,25.881C29.546,25.266,28.213,26.035,28.213,27.267z" />
+            </svg>
+        </div>
+    </div>
+    <div class="product-page__info">
+        <div class="product-page__name">@Model.Product.Name</div>
+        <div class="product-page__size product-sizes">
+            <div class="product-sizes__title">Размеры:</div>
+            <div class="product-sizes__sizes-block">
+                @foreach (var s in Model.Product.Sizes)
+                {
+                    <div class="product-sizes__size">@s.SizeValue</div>
+                }
+            </div>
+        </div>
+        <div class="product-page__price">@Model.Product.Price UAH</div>
+        <div class="product-page__likes">Количевство лайков: @Model.Product.Like</div>
+        <div class="product-page__buttons">
+            <div class="product-page__buy btn" id="addToCart" data-id="@Model.Product.Id">
+                Добавить в корзину
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 512 512">
+                    <path d="m500.6,459.3l-45.4-414.9c-2.1-18.8-19-33.4-38-33.4h-322.5c-20,0-35.8,14.6-38,33.4l-45.3,414.9c-3.5,23.3 14.2,41.7 38,41.7h413.2c22.1,0 41.5-18.7 38-41.7zm-38,20.8h-413.2c-9,0-18.9-6.2-16.9-18.8l45.3-413.8c1.1-9.4 8.4-15.6 16.9-15.6v-1h322.6c8.4,0 15.8,7.3 16.9,15.6l45.3,414.9c1.8,9.2-4.7,18.7-16.9,18.7z" />
+                    <path d="m348.7,70.3c-5.9,0-10.6,4.7-10.6,10.5v101.6c0,44.8-36.8,81.2-82.1,81.2-45.3,0-82.1-36.4-82.1-81.2v-101.3c0-5.8-4.8-10.5-10.6-10.5-5.9,0-10.6,4.7-10.6,10.5v101.3c0,56.4 46.4,102.2 103.4,102.2s103.4-45.9 103.4-102.2v-101.5c-0.1-5.9-4.9-10.6-10.8-10.6z" />
+                </svg>
+            </div>
+            <div class="product-page__buy btn" id="addToWishlist" data-id="@Model.Product.Id">
+                В список желаний
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" data-id="4" class="heart-notfull" viewBox="0 0 16 16">
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.RecomendedProducts != null && Model.RecomendedProducts.Count() != 0)
+{
+    <div class="another-product">
+        <div class="another-product__title">Похожие товары: </div>
+        <div class="another-product__products">
+
+            @foreach (var p in Model.RecomendedProducts)
+            {
+                <div class="another-product__product"><a asp-action="Product" asp-route-productName="@p.LatinName" asp-route-productId="@p.Id"><img src="~/img/products-photo/medium/@p.Photos.First().PhotoWay" alt=""></a></div>
+            }
+        </div>
+    </div>
+}

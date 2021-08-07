@@ -1,0 +1,36 @@
+﻿@model Order
+
+    <div class="order-detail">
+        <div class="order-detail__title">Детали заказа №@Model.Id</div>
+        <div class="order-detail__info">
+            <div class="order-detail__person-detail order-info">
+                <div class="order-info__title">Данные получателя:</div>
+                <div class="order-info__detail">@Model.FirstName @Model.LastName<br>@Model.PhoneNumber</div>
+            </div>
+            <div class="order-detail__delivery-detail order-info">
+                <div class="order-info__title">Данные доставки:</div>
+                @if (Model.IsPickup)
+                {
+                    <div class="order-info__detail">Самовывоз</div>
+                }
+                else
+                {
+                    <div class="order-info__detail">Город: @Model.City<br>Новая почта: @Model.Mail</div>
+                }
+
+            </div>
+        </div>
+        <div class="order-detail__total">Сумма заказа: @Model.OrderSum грн</div>
+        <div class="order-detail__products">
+            @foreach (var c in Model.Cart.CartLines)
+            {
+                <div class="order-detail__product">
+                    <div class="order-detail__product-img"><img src="~/img/products-photo/medium/@c.Product.Photos.FirstOrDefault().PhotoWay" alt=""></div>
+                    <div class="order-detail__product-name">@c.Product.Name</div>
+                    <div class="order-detail__product-size">Размер: @c.SizeValue</div>
+                    <div class="order-detail__product-sum">Количество: @c.ProductSum</div>
+                    <div class="order-detail__product-sum">Сумма: @c.productCost грн</div>
+                </div>
+            }
+        </div>
+    </div>

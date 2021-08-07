@@ -1,0 +1,82 @@
+﻿@model ProductsInfo
+<div class="product-selecters content__product-selecter">
+    @await Html.PartialAsync("SizePartial.cshtml", Model.FiltrInfo.Sizes)
+    <div class="product-selecters__item product-selecter" id="price-selecter">
+        <div class="product-selecter__button">
+            <div class="product-selecter__title">Цена</div>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="product-selecter__icon" viewBox="0 0 284.929 284.929" style="enable-background:new 0 0 284.929 284.929;" xml:space="preserve">
+            <path d=" M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441   L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082   c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647   c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z" />
+            </svg>
+        </div>
+        <div class="product-selecter__choice selecter-choice">
+            <input type="text" class="js-range-slider" />
+            <div class="selecter-choice__inputs">
+                <input class="selecter-choice__input" id="from" value="0" data-min="@Model?.FiltrInfo?.MinPrice">
+                <input class="selecter-choice__input" id="to" value="0" data-max="@Model?.FiltrInfo?.MaxPrice">
+            </div>
+            <div class="selecter-choice__button" id="price-selecter-button">Выбрать</div>
+        </div>
+    </div>
+    @await Html.PartialAsync("ColorPartial.cshtml", Model.FiltrInfo.Colors)
+</div>
+@if (Model.Products.Count() != 0)
+{
+    <div class="product-list">
+        @foreach (var p in Model.Products)
+        {
+        <div class="product-item">
+            @if (Model.WishlistProductsId == null || !Model.WishlistProductsId.Any(t => t == p.Id))
+            {
+                <div class="product-item__heart">
+                    <div class="product-item__heart-quantity">@p.Like</div>
+                    <svg xmlns="http://www.w3.org/2000/svg" data-id="@p.Id" class="heart-notfull heart" viewBox="0 0 16 16">
+                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                    </svg>
+                </div>
+            }
+            else
+            {
+                <div class="product-item__heart">
+                    <div class="product-item__heart-quantity">@p.Like</div>
+                    <svg xmlns="http://www.w3.org/2000/svg" data-id="@p.Id" class="heart-full heart" viewBox="0 0 16 16">
+                        <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                    </svg>
+                </div>
+            }
+            <a asp-action="Product" asp-route-category="@p.Category.LatinName" asp-route-productName="@p.LatinName" asp-route-productId="@p.Id">
+                <div class="product-item__img-block">
+                    <div class="product-item__price">@p.Price UAH</div>
+                    <div class="product-item__img"><img src="~/img/products-photo/medium/@p?.Photos?.First()?.PhotoWay" alt=""></div>
+
+                </div>
+            </a>
+            <div class="product-item__name">@p.Name</div>
+        </div>
+        }
+        </div>
+    <div class="product-item">
+    </div>
+    <div class="product-pages">
+        @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+        {
+            if (i == Model.PagingInfo.CurrentPage)
+            {
+                <a asp-action="List" asp-controller="Product" asp-route-productPage="@i"><div class="product-pages__item product-pages__item_active">@i</div></a>
+            }
+            else
+            {
+                <a asp-action="List" asp-controller="Product" asp-route-productPage="@i"><div class="product-pages__item">@i</div></a>
+            }
+
+        }
+    </div>
+}
+else
+{
+    <div class="product-none-alert">
+        <h1>Товары не найдены</h1>
+        <a asp-action="List" asp-controller="Product">Вернуться на главную</a>
+    </div>
+}
+
+@await Html.PartialAsync("MobileFilterPartial.cshtml", Model.FiltrInfo)

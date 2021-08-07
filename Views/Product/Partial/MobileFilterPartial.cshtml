@@ -1,0 +1,69 @@
+﻿@model FiltrInfo
+
+<div class="hidden-content">
+    <div class="filter">
+        <div class="filter-header">
+            <div class="filter-header__close">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 612.043 612.043" style="enable-background:new 0 0 612.043 612.043;" xml:space="preserve">
+                    <path d="M397.503,306.011l195.577-195.577c25.27-25.269,25.27-66.213,0-91.482c-25.269-25.269-66.213-25.269-91.481,0     L306.022,214.551L110.445,18.974c-25.269-25.269-66.213-25.269-91.482,0s-25.269,66.213,0,91.482L214.54,306.033L18.963,501.61     c-25.269,25.269-25.269,66.213,0,91.481c25.269,25.27,66.213,25.27,91.482,0l195.577-195.576l195.577,195.576     c25.269,25.27,66.213,25.27,91.481,0c25.27-25.269,25.27-66.213,0-91.481L397.503,306.011z" />
+                </svg>
+            </div>
+        </div>
+        <div class="filter__items">
+            <div class="filter__item" id="filter-size">
+                <div class="filter__button">
+                    <div class="product-selecter__title filter__name">Размер</div>
+                    <div class="filter__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="product-selecter__icon" viewBox="0 0 284.929 284.929" style="enable-background:new 0 0 284.929 284.929;" xml:space="preserve">
+                            <path d=" M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441   L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082   c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647   c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="filter-selecter">
+                    @foreach(var s in Model.Sizes) {
+                        <div class="selecter-choice__item filter-selecter__checkbox mobile-selecter-choice__item_check-box">@s</div>
+                    }
+                    <div class="selecter-choice__button" id="size-filter-button">Выбрать</div>
+                </div>
+            </div>
+            <div class="filter__item" id="filter-price">
+                <div class="filter__button">
+                    <div class="product-selecter__title filter__name">Цена</div>
+                    <div class="filter__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="product-selecter__icon" viewBox="0 0 284.929 284.929" style="enable-background:new 0 0 284.929 284.929;" xml:space="preserve">
+                            <path d=" M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441   L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082   c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647   c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="filter-selecter">
+                    <input type="text" class="js-range-slider-filter" />
+                    <div class="selecter-choice__inputs">
+                        <input class="selecter-choice__input" id="from-filter" value="0" data-min="@Model.MinPrice">
+                        <input class="selecter-choice__input" id="to-filter" value="0" data-max="@Model.MaxPrice">
+                    </div>
+                    <div class="selecter-choice__button" id="price-filter-button">Выбрать</div>
+                </div>
+            </div>
+            <div class="filter__item" id="filter-color">
+                <div class="filter__button">
+                    <div class="product-selecter__title filter__name">Цвет</div>
+                    <div class="filter__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="product-selecter__icon" viewBox="0 0 284.929 284.929" style="enable-background:new 0 0 284.929 284.929;" xml:space="preserve">
+                            <path d=" M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441   L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082   c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647   c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="filter-selecter">
+                    <div class="selecter-choice__colors">
+                        @foreach(var c in Model.Colors) {
+                        <div class="selecter-choice__color-div">
+                            <div class="mobile-selecter-choice__color" style="background-color: @c;" data-color="@c"></div>
+                        </div>
+                        }
+                    </div>
+                    <div class="selecter-choice__button" id="color-filter-button">Выбрать</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

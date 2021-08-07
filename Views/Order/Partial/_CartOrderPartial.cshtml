@@ -1,0 +1,27 @@
+﻿@model Cart
+
+    <div class="basket-order">
+        <div class="basket-order__title">Содержимое корзины</div>
+        <div class="basket-order__products">
+            @foreach(var p in Model.CartLines) {
+            <div class="basket-order__product order-product">
+                <div class="order-product__img"><img src="/img/products-photo/medium/@p.Product.Photos.First().PhotoWay" alt=""></div>
+                <div class="order-product__info1">
+                    <div class="order-product__name">@p.Product.Name</div>
+                    <div class="order-product__sum">Количевство: @p.ProductSum</div>
+                    <div class="order-product__size">Размер: @p.SizeValue</div>
+                </div>
+                <div class="order-product__info2">
+                    <a asp-action="DeleteProductFromCartOrder" asp-controller="Cart" asp-route-productId="@p.Product.Id">
+                        <div class="order-product__delete">
+                            <svg viewBox="0 0 612.043 612.043">
+                                <path d="M397.503,306.011l195.577-195.577c25.27-25.269,25.27-66.213,0-91.482c-25.269-25.269-66.213-25.269-91.481,0     L306.022,214.551L110.445,18.974c-25.269-25.269-66.213-25.269-91.482,0s-25.269,66.213,0,91.482L214.54,306.033L18.963,501.61     c-25.269,25.269-25.269,66.213,0,91.481c25.269,25.27,66.213,25.27,91.482,0l195.577-195.576l195.577,195.576     c25.269,25.27,66.213,25.27,91.481,0c25.27-25.269,25.27-66.213,0-91.481L397.503,306.011z" />
+                            </svg>
+                        </div>
+                    </a>
+                    <div class="order-product__price">@p.productCost UAH</div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>

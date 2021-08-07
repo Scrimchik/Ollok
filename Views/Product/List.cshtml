@@ -1,0 +1,14 @@
+﻿@model ProductListViewModel
+@{ ViewBag.Title = "Ollok";}
+
+
+@await Component.InvokeAsync("CategoryList")
+<div class="products-name content__products-name">
+    <div class="products-name__name">@Model.Category</div>
+    <div class="products-name__line"></div>
+</div>
+<div class="filter-button">Фильтры</div>
+<div class="ajax-product">
+    @await Html.PartialAsync("Partial/ProductPartial.cshtml", Model.ProductsInfo)
+</div>
+<div class="category" style="display: none;" data-category-select="@ViewBag.selecteCategory"></div>

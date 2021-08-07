@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin.css">
+    <script defer src="~/lib/jquery/jquery.min.js"></script>
+    <script defer src="~/js/admin.min.js"></script>
+    <title>admin panel</title>
+</head>
+<body>
+    <div class="hamburger-menu">
+        <input id="menu__toggle" type="checkbox" />
+        <label class="menu__btn" for="menu__toggle">
+            <span></span>
+        </label>
+        <ul class="menu__box">
+            <li><a class="menu__item" asp-action="Product" asp-controller="Product">Товары</a></li>
+            <li><a class="menu__item" asp-action="OrderList" asp-controller="Order">Заказы</a></li>
+            <li><a class="menu__item" asp-action="Category" asp-controller="Category">Категории</a></li>
+            <li><a class="menu__item" asp-action="Size" asp-controller="Size">Размеры</a></li>
+        </ul>
+    </div>
+    @RenderBody()
+</body>
+</html>
