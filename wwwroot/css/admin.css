@@ -133,9 +133,17 @@ h1, h2, h3, h4, h5, h6 {
     padding: 2px 0;
 }
 
-    .btn:hover {
-        color: aqua;
-    }
+.delete_button {
+    border: none;
+    background-color: white;
+    outline: none;
+    font-family: roboto;
+    font-size: 20px;
+}
+
+.btn:hover {
+    color: aqua;
+}
 
 /**/
 /*burger*/

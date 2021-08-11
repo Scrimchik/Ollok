@@ -29,7 +29,12 @@
                 {
                     <div class="product-admin__admin-button"><a asp-action="ShowProduct" asp-controller="Product" asp-route-productId="@p.Id">Показать</a></div>
                 }
-                <div class="product-admin__admin-button"><a asp-action="DeleteProduct" asp-controller="Product" asp-route-productId="@p.Id">Удалить</a></div>
+                <div class="product-admin__admin-button">
+                    <form asp-action="DeleteProduct" method="post">
+                        <input type="hidden" name="product.Id" value="@p.Id" />
+                        <button type="submit" class="delete_button">Удалить</button>
+                    </form>
+                </div>
             </div>
         </div>
         }

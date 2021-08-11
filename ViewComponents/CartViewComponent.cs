@@ -4,6 +4,7 @@ using Ollok.Models;
 using Ollok.Models.Abstract;
 using Ollok.Models.ViewsModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ollok.ViewComponents
 {
@@ -16,13 +17,13 @@ namespace Ollok.ViewComponents
             cartRepository = cart;
         }
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
             string cartId = HttpContext.Request.Cookies["cartId"];
-            Cart cart = cartRepository.Carts.Where(t => t.Id == cartId)
+            Cart cart = await cartRepository.Carts.Where(t => t.Id == cartId)
                 .Include(t => t.CartLines).ThenInclude(t => t.Product).ThenInclude(t => t.Photos)
                 .Include(t => t.CartLines).ThenInclude(t => t.Product.Category)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             return View(new CartViewModel { 
                 Cart = cart

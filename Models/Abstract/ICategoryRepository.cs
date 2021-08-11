@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ollok.Models.Abstract
 {
@@ -6,6 +7,10 @@ namespace Ollok.Models.Abstract
     {
         IQueryable<Category> Categories { get; }
 
-        public Category GetCategoryByName(string CategoryName);
+        Category GetCategory(int id);
+        Task<Category> GetCategoryByNameAsync(string categoryLatinName);
+        Task AddCategoryAsync(Category category);
+        Task UpdateCategoryAsync(Category category);
+        Task DeleteCategoryAsync(Category category);   
     }
 }

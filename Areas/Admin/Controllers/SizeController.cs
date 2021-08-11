@@ -1,23 +1,18 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ollok.Models;
 using Ollok.Models.Abstract;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ollok.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
     public class SizeController : Controller
     {
         private ISizeRepository sizeRepository;
-        private ApplicationDbContext db;
 
-        public SizeController(ISizeRepository sizeRepository, ApplicationDbContext context)
+        public SizeController(ISizeRepository sizeRepository)
         {
-            db = context;
             this.sizeRepository = sizeRepository;
         }
 
@@ -34,28 +29,26 @@ namespace Ollok.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSizeAsync(Size size)
         {
-            db.Sizes.Add(size);
-            await db.SaveChangesAsync();
+            await sizeRepository.AddSizeAsync(size);
             return RedirectToAction("Size");
         }
 
         public async Task<IActionResult> UpdateSizeAsync(int sizeId)
         {
-            return View(await sizeRepository.Sizes.FirstOrDefaultAsync(t => t.Id == sizeId));
+            return View(await sizeRepository.GetSizeAsync(sizeId));
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdateSizeAsync(Size size)
         {
-            db.Entry(size).State = EntityState.Modified;
-            await db.SaveChangesAsync();
+            await sizeRepository.UpdateSizeAsync(size);
             return RedirectToAction("Size");
         }
 
-        public async Task<IActionResult> DeleteSizeAsync(int sizeId)
+        [HttpPost]
+        public async Task<IActionResult> DeleteSizeAsync(Size size)
         {
-            db.Sizes.Remove(new Size() { Id = sizeId });
-            await db.SaveChangesAsync();
+            await sizeRepository.DeleteSizeAsync(size);
             return RedirectToAction("Size");
         }
     }

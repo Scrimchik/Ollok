@@ -29,7 +29,7 @@ namespace Ollok.Controllers
 
         public async Task<IActionResult> List(FiltrModel filtr, string categoryName = " ", int productPage = 1)
         {
-            Category category = categoryRepository.GetCategoryByName(categoryName);
+            Category category = await categoryRepository.GetCategoryByNameAsync(categoryName);
             ViewBag.selecteCategory = category?.LatinName;
              
             ProductListViewModel model = new ProductListViewModel
@@ -48,7 +48,7 @@ namespace Ollok.Controllers
         {
             Random r = new Random();
             int quantityOfRecomendedProducts = 6;
-            Product product = await productsRepository.Products.Include(t => t.Photos).Include(t => t.Sizes).Include(t => t.Category).FirstOrDefaultAsync(t => t.Id == productId);
+            Product product = await productsRepository.GetProductAsync(productId);
             List<Product> recomendedProducts = await productsRepository.Products?.Where(t => t.CategoryId == product.CategoryId && t.Id != product.Id).OrderBy(t => Guid.NewGuid()).Take(quantityOfRecomendedProducts).Include(t => t.Photos).ToListAsync();
             return View(new ProductViewModel { 
                 Product = product,

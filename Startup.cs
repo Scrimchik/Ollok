@@ -17,15 +17,16 @@ namespace Ollok
     {
         public Startup(IConfiguration configuration)
         {
-            this.configuration = configuration;
+            this.Configuration = configuration;
         }
 
-        public IConfiguration configuration { get; set; }
+        public IConfiguration Configuration { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            string conString = Configuration["Data:ConnectionString"];
             services.AddDbContext<ApplicationDbContext>(opt => {
-                opt.UseSqlServer(configuration["Data:ConnectionString"]);
+                opt.UseSqlServer(conString);
             });
 
             services.AddTransient<IProductRepository, EfProductRepoistory>();
@@ -35,6 +36,7 @@ namespace Ollok
             services.AddTransient<ISizeRepository, EfSizeRepository>();
             services.AddTransient<ICartLineRepository, EfCartLineRepository>();
             services.AddTransient<IOrderRepository, EfOrderRepository>();
+            services.AddTransient<IPhotoRepository, EfPhotoRepository>();
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();

@@ -1,48 +1,37 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Ollok.Models;
 using Ollok.Models.Abstract;
 using Ollok.Models.ViewsModel;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Ollok.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private IProductRepository productRepository;
         private ISizeRepository sizeRepository;
-        private ApplicationDbContext db;
         private IWebHostEnvironment webHostEnvironment;
         private ICategoryRepository categoryRepository;
-        public IConfiguration Configuration { get; }
+        private IPhotoRepository photoRepository;
         int productPerPage = 12;
 
-        public ProductController(IProductRepository productRepository, 
-            ISizeRepository sizeRepository, 
-            ApplicationDbContext context, 
-            IWebHostEnvironment webHostEnvironment,
-            ICategoryRepository categoryRepository,
-            IConfiguration configuration)
+        public ProductController(IProductRepository productRepository, ISizeRepository sizeRepository, 
+            ApplicationDbContext context, IWebHostEnvironment webHostEnvironment,
+            ICategoryRepository categoryRepository, IPhotoRepository photoRepository)
         {
             this.productRepository = productRepository;
             this.sizeRepository = sizeRepository;
             this.webHostEnvironment = webHostEnvironment;
             this.categoryRepository = categoryRepository;
-            Configuration = configuration;
-            db = context;
+            this.photoRepository = photoRepository;
         }
 
         public async Task<IActionResult> Product(int productPage = 1)
@@ -52,52 +41,45 @@ namespace Ollok.Areas.Admin.Controllers
 
         public async Task<IActionResult> UpdateProduct(int productId)
         {
-            Product product = await productRepository.Products.Where(t => t.Id == productId).Include(t => t.Photos).Include(t => t.Sizes).FirstOrDefaultAsync();
-            return View(new UpdateProductViewModel { Sizes = db.Sizes.ToList(), Product = product });
+            Product product = await productRepository.GetProductAsync(productId);
+            return View(new UpdateProductViewModel { Sizes = await sizeRepository.Sizes.ToListAsync(), Product = product });
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(Product product, List<int> sizes, IFormFileCollection photos)
         {
-            Product productUpdate = productRepository.Products.Where(t => t.Id == product.Id).Include(t => t.Sizes).Include(t => t.Photos).FirstOrDefault();
-            productUpdate.LatinName = product.LatinName;
-            productUpdate.Name = product.Name;
-            productUpdate.Price = product.Price;
-            productUpdate.Color = product.Color;
+            product.Photos.AddRange(await AddPhotosToProduct(photos));
 
-            await AddPhotosToProduct(photos, productUpdate);
-            AddSizesToProduct(sizes, productUpdate, true);
-            await db.SaveChangesAsync();
+            await productRepository.UpdateProductAsync(product);
             return RedirectToAction("Product");
         }
 
         public async Task<IActionResult> DeleteProductPhoto(int productId, int photoId)
         {
-            Photo photo = await db.Photos.FirstOrDefaultAsync(t => t.Id == photoId);
-            DeletePhoto(photo.PhotoWay);
-            db.Photos.Remove(photo);
-            await db.SaveChangesAsync();
+            string photoWay = await photoRepository.Photos.Where(t => t.Id == photoId).Select(t => t.PhotoWay).FirstOrDefaultAsync();
+            DeletePhoto(photoWay);
+            await photoRepository.DeletePhotoAsync(photoId);
             return RedirectToAction("UpdateProduct", productId);
         }
 
-        public IActionResult DeleteProduct(int productId)
+        [HttpPost]
+        public async Task<IActionResult> DeleteProduct(int productId)
         {
-            Product product = productRepository.Products.Include(t => t.Photos).FirstOrDefault(t => t.Id == productId);
-            db.Products.Remove(product);
+            Product product = await productRepository.GetProductAsync(productId);
 
             foreach (var p in product.Photos)
                 DeletePhoto(p.PhotoWay);
 
-            db.SaveChanges();
+            await productRepository.DeleteProductAsync(product);
             return RedirectToAction("Product");
         }
 
-        public IActionResult AddProduct()
+        public async Task<IActionResult> AddProduct()
         {
             AddProductViewModel model = new AddProductViewModel()
             {
-                Sizes = sizeRepository.Sizes.ToList(),
-                Categories = categoryRepository.Categories.ToList()
+                Sizes = await sizeRepository.Sizes.ToListAsync(),
+                Categories = await categoryRepository.Categories.ToListAsync()
             };
             return View(model);
         }
@@ -105,64 +87,34 @@ namespace Ollok.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product product, List<int> sizes, int categoryId, IFormFileCollection photos)
         {
-            Product productUpdate = new Product();
-            productUpdate.LatinName = product.LatinName;
-            productUpdate.Name = product.Name;
-            productUpdate.Price = product.Price;
-            productUpdate.Color = product.Color;
-            productUpdate.Sizes = product.Sizes;
-            productUpdate.CategoryId = categoryId;
+            product.Photos = await AddPhotosToProduct(photos);
+            product.Sizes = await sizeRepository.Sizes.Where(t => sizes.Contains(t.SizeValue)).ToListAsync();
+            product.CategoryId = categoryId;
 
-            await AddPhotosToProduct(photos, productUpdate);
-            AddSizesToProduct(sizes, productUpdate, false);
-            db.Products.Add(productUpdate);
-            await db.SaveChangesAsync();
-            await SetNewProductToApi();
+            await productRepository.AddProductAsync(product);
             return RedirectToAction("Product");
         }
 
-        public IActionResult SearchProduct(string productName)
+        public async Task<IActionResult> SearchProduct(string productName)
         {
-            return View("Product", productRepository.Products.Include(t => t.Photos).Where(t => t.Name.Contains(productName)));
+            return View("Product", await productRepository.GetProductByNameAsync(productName));
         }
 
         public async Task<IActionResult> HideProduct(int productId)
         {
-            Product product = await productRepository.Products.FirstOrDefaultAsync(t => t.Id == productId);
-            product.IsSeen = false;
-            await db .SaveChangesAsync();
+            await productRepository.HideProductAsync(productId);
             return RedirectToAction("Product");
         }
 
         public async Task<IActionResult> ShowProduct(int productId)
         {
-            Product product = await productRepository.Products.FirstOrDefaultAsync(t => t.Id == productId);
-            product.IsSeen = true;
-            await db.SaveChangesAsync();
+            await productRepository.ShowProductAsync(productId);
             return RedirectToAction("Product");
         }
 
-        public void AddSizesToProduct(List<int> sizes, Product product, bool updateProduct)
+        private async Task<List<Photo>> AddPhotosToProduct(IFormFileCollection photos)
         {
-            if (updateProduct) {
-                List<Models.Size> sizesObj = sizeRepository.Sizes.Where(t => t.Products.Any(s => s.Id == product.Id)).ToList();
-                List<Models.Size> selectedSize = sizeRepository.Sizes.Where(t => sizes.Any(s => s == t.SizeValue)).Include(t => t.Products).ToList();
-
-                foreach (var s in sizesObj)
-                    s.Products?.Remove(product);
-
-                foreach (var s in selectedSize)
-                    s.Products.Add(product);
-            }
-            else
-            {
-                List<Models.Size> selectedSize = sizeRepository.Sizes.Where(t => sizes.Any(s => s == t.SizeValue)).ToList();
-                product.Sizes.AddRange(selectedSize);
-            }
-        }
-
-        public async Task AddPhotosToProduct(IFormFileCollection photos, Product product)
-        {
+            List<Photo> savePhoto = new List<Photo>();
             foreach (var p in photos)
             {
                 using (var fileStream = new FileStream(webHostEnvironment.WebRootPath + "/img/products-photo/large/" + p.FileName, FileMode.Create))
@@ -178,14 +130,14 @@ namespace Ollok.Areas.Admin.Controllers
                 {
                     PhotoWay = p.FileName,
                 };
-                product.Photos.Add(photo);
+                savePhoto.Add(photo);
 
                 SqueezePhoto(p);
             }
-
+            return savePhoto;
         }
 
-        public void SqueezePhoto(IFormFile photo)
+        private void SqueezePhoto(IFormFile photo)
         {
             using (Bitmap bitmap = new Bitmap(webHostEnvironment.WebRootPath + "/img/products-photo/medium/" + photo.FileName))
             {
@@ -205,21 +157,12 @@ namespace Ollok.Areas.Admin.Controllers
             }
         }
 
-        public void DeletePhoto(string photoName)
+        private void DeletePhoto(string photoName)
         {
             FileInfo photoMedium = new FileInfo(webHostEnvironment.WebRootPath + "/img/products-photo/medium/" + photoName);
             FileInfo photoLarge = new FileInfo(webHostEnvironment.WebRootPath + "/img/products-photo/large/" + photoName);
             photoMedium.Delete();
             photoLarge.Delete();
-        }
-
-        public async Task SetNewProductToApi()
-        {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(Configuration["Data:ApiUri"]);
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            await client.GetAsync("/api/product");
         }
     }
 }

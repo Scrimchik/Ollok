@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ollok.Models;
 using Ollok.Models.Abstract;
@@ -9,17 +8,15 @@ using System.Threading.Tasks;
 namespace Ollok.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
     public class OrderController : Controller
     {
         private IOrderRepository orderRepository;
-        private ApplicationDbContext db;
 
-        public OrderController(IOrderRepository orderRepository, ApplicationDbContext db)
+        public OrderController(IOrderRepository orderRepository)
         {
             this.orderRepository = orderRepository;
-            this.db = db;
         }
+
         public async Task<IActionResult> OrderList(string status)
         {
             return View(await orderRepository.Orders.Where(t => status == null || t.Status == status).ToListAsync());
@@ -31,17 +28,22 @@ namespace Ollok.Areas.Admin.Controllers
                 .ThenInclude(t => t.Product).ThenInclude(t => t.Photos).FirstOrDefaultAsync());
         }
 
+        [HttpPost]
         public async Task<IActionResult> ChangeStatus(string status, int orderId)
         {
-            Order order = await orderRepository.Orders.FirstOrDefaultAsync(t => t.Id == orderId);
-            order.Status = status;
-            await db.SaveChangesAsync();
+            await orderRepository.ChangeOrderStatusAsync(orderId, status);
             return RedirectToAction("OrderList");
         }
 
         public async Task<IActionResult> FindOrder(int orderId)
         {
-            return View("OrderList", await orderRepository.Orders.Where(t => t.Id == orderId).ToListAsync());
+            return View("OrderList", await orderRepository.GetOrderAsync(orderId));
+        }
+
+        public async Task<IActionResult> DeleteOrder(Order order)
+        {
+            await orderRepository.DeleteOrderAsync(order);
+            return RedirectToAction("OrderList");
         }
     }
 }

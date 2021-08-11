@@ -1,22 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ollok.Models;
+using Ollok.Models.Abstract;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ollok.ViewComponents
 {
     public class WishlistViewComponent : ViewComponent
     {
-        private ApplicationDbContext db;
+        private IWhishlistrepository whishlistrepository;
 
-        public WishlistViewComponent(ApplicationDbContext context)
+        public WishlistViewComponent(IWhishlistrepository whishlistrepository)
         {
-            db = context;
+            this.whishlistrepository = whishlistrepository;
         }
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View(db.Wishlists?.Where(t => t.Id == HttpContext.Request.Cookies["wishlist_id"]).Include(t => t.Products).ThenInclude(t => t.Photos).Include(t => t.Products).ThenInclude(t => t.Sizes).Select(t => t.Products).FirstOrDefault());
+            string wishlistId = HttpContext.Request.Cookies["wishlist_id"];
+            Wishlist wishlist = await whishlistrepository.GetWishlistAsync(wishlistId);
+            return View(wishlist?.Products);
         }
     }
 }

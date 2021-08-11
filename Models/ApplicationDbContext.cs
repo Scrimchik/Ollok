@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Ollok.Models
 {
@@ -17,13 +17,14 @@ namespace Ollok.Models
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<Product>().Property(t => t.IsSeen).HasDefaultValue(true);
+            builder.Entity<Order>().Property(t => t.Status).HasDefaultValue("В ожидании");
+            builder.Entity<Order>().Property(t => t.Time).HasDefaultValue(DateTime.Now);
         }
     }
 }

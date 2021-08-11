@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using Ollok.Models;
 using Ollok.Models.Abstract;
 using System.Threading.Tasks;
@@ -8,15 +6,12 @@ using System.Threading.Tasks;
 namespace Ollok.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private ICategoryRepository categoryRepository;
-        private ApplicationDbContext db;
 
-        public CategoryController(ApplicationDbContext context, ICategoryRepository categoryRepository)
+        public CategoryController(ICategoryRepository categoryRepository)
         {
-            db = context;
             this.categoryRepository = categoryRepository;
         }
 
@@ -33,28 +28,27 @@ namespace Ollok.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCategory(Category category)
         {
-            db.Categories.Add(category);
-            await db.SaveChangesAsync();
+            await categoryRepository.AddCategoryAsync(category);
             return RedirectToAction("Category");
         }
 
-        public async Task<IActionResult> UpdateCategory(int categoryId)
+        [HttpPost]
+        public IActionResult UpdateCategory(int categoryId)
         {
-            return View(await categoryRepository.Categories.FirstOrDefaultAsync(t => t.Id == categoryId));
+            return View(categoryRepository.GetCategory(categoryId));
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdateCategory(Category category)
         {
-            db.Entry(category).State = EntityState.Modified;
-            await db.SaveChangesAsync();
+            await categoryRepository.UpdateCategoryAsync(category);
             return RedirectToAction("Category");
         }
 
-        public async Task<IActionResult> DeleteCategory(int categoryId)
+        [HttpPost]
+        public async Task<IActionResult> DeleteCategory(Category category)
         {
-            db.Categories.Remove(new Category() { Id = categoryId });
-            await db.SaveChangesAsync();
+            await categoryRepository.DeleteCategoryAsync(category);
             return RedirectToAction("Category");
         }
     }

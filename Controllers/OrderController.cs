@@ -11,12 +11,10 @@ namespace Ollok.Controllers
     public class OrderController : Controller
     {
         private ICartRepository cartRepository;
-        private ApplicationDbContext db;
 
-        public OrderController(ICartRepository cartRepository, ApplicationDbContext db)
+        public OrderController(ICartRepository cartRepository)
         {
             this.cartRepository = cartRepository;
-            this.db = db;
         }
 
         public async Task<IActionResult> Order()
@@ -33,15 +31,6 @@ namespace Ollok.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (order.IsPickup)
-                {
-                    order.City = null;
-                    order.Mail = null;
-                }
-                order.Time = DateTime.Now;
-                order.Status = "В ожидании";
-                db.Orders.Add(order);
-                await db.SaveChangesAsync();
                 HttpContext.Response.Cookies.Delete("cartId");
                 TempData["OrderNotification"] = "Заказ оформлен, мы свяжемся с вами в ближайшее время";
                 return RedirectToAction("List", "Product");

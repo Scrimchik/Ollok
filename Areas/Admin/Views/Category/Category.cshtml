@@ -2,7 +2,7 @@
 
 <div class="product-admin">
     <div class="product-admin__title">Список категорий</div>
-    <a asp-action="AddCategory" asp-controller="Category"><div class="product-admin__new-product btn">Добавить новую категорию</div></a>
+    <a asp-action="AddCategory"><div class="product-admin__new-product btn">Добавить новую категорию</div></a>
     <div class="product-admin__products">
         @foreach (var c in Model)
         {
@@ -10,8 +10,13 @@
                 <div class="product-admin__id">@c.Id</div>
                 <div class="product-admin__name">@c.Name</div>
                 <div class="product-admin__admin-buttons">
-                    <div class="product-admin__admin-button"><a asp-action="UpdateCategory" asp-controller="Category" asp-route-categoryId="@c.Id">Редактировать</a></div>
-                    <div class="product-admin__admin-button"><a asp-action="DeleteCategory" asp-controller="Category" asp-route-categoryId="@c.Id">Удалить</a></div>
+                    <div class="product-admin__admin-button"><a asp-action="UpdateCategory" asp-route-categoryId="@c.Id">Редактировать</a></div>
+                    <div class="product-admin__admin-button">
+                        <form asp-action="DeleteCategory" method="post">
+                            <input type="hidden" name="category.id" value="@c.Id" />
+                            <button type="submit" class="delete_button" >Удалить</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         }

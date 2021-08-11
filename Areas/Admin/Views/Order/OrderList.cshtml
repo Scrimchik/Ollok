@@ -22,13 +22,30 @@
                 <div class="product-admin__cost">@o.Status</div>
                 <div class="order-admin__admin-buttons">
                     <div class="order-admin__admin-buttons-1">
-                        <div class="product-admin__admin-button order-admin__admin-button"><a asp-action="Order" asp-controller="Order" asp-route-orderId="@o.Id">Детали заказа</a></div>
-                        <div class="product-admin__admin-button order-admin__admin-button"><a asp-action="ChangeStatus" asp-controller="Order" asp-route-orderId="@o.Id" asp-route-status="Принятый">Принять заказ</a></div>
-                        <div class="product-admin__admin-button order-admin__admin-button"><a asp-action="ChangeStatus" asp-controller="Order" asp-route-orderId="@o.Id" asp-route-status="Отменённый">Отменить заказ</a></div>
+                        <div class="product-admin__admin-button order-admin__admin-button"><a asp-action="Order" asp-route-orderId="@o.Id">Детали заказа</a></div>
+                        <div class="product-admin__admin-button order-admin__admin-button">
+                            <form asp-action="ChangeStatus" asp-route-orderId="@o.Id" asp-route-status="Принятый" method="post">
+                                <button type="submit" class="delete_button">Принять заказ</button>
+                            </form>
+                        </div>
+                        <div class="product-admin__admin-button order-admin__admin-button">
+                            <form asp-action="ChangeStatus" asp-route-orderId="@o.Id" asp-route-status="Отменённый" method="post">
+                                <button type="submit" class="delete_button">Отменить заказ</button>
+                            </form>
+                        </div>
                     </div>
                     <div class="order-admin__admin-buttons-2">
-                        <div class="product-admin__admin-button order-admin__admin-button"><a asp-action="ChangeStatus" asp-controller="Order" asp-route-orderId="@o.Id" asp-route-status="Выполнен">Заказ выполнен</a></div>
-                        <div class="product-admin__admin-button order-admin__admin-button"><a asp-action="DeleteOrder" asp-controller="Order" asp-route-orderId="@o.Id">Удалить</a></div>
+                        <div class="product-admin__admin-button order-admin__admin-button">
+                            <form asp-action="ChangeStatus" asp-route-orderId="@o.Id" asp-route-status="Выполнен" method="post">
+                                <button type="submit" class="delete_button">Заказ выполнен</button>
+                            </form>
+                        </div>
+                        <div class="product-admin__admin-button order-admin__admin-button">
+                            <form asp-action="DeleteOrder" method="post">
+                                <input type="hidden" name="order.id" value="@o.Id" />
+                                <button type="submit" class="delete_button">Удалить</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

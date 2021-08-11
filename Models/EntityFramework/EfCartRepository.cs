@@ -1,5 +1,6 @@
 ﻿using Ollok.Models.Abstract;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ollok.Models.EntityFramework
 {
@@ -13,5 +14,11 @@ namespace Ollok.Models.EntityFramework
         }
 
         public IQueryable<Cart> Carts => db.Carts;
+
+        public async Task AddCartAsync(Cart cart)
+        {
+            db.Carts.Add(cart);
+            await db.SaveChangesAsync();
+        }
     }
 }
