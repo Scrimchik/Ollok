@@ -7,9 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Ollok.Extensions;
 using Ollok.Models;
-using Ollok.Models.Abstract;
-using Ollok.Models.EntityFramework;
 
 namespace Ollok
 {
@@ -17,7 +16,7 @@ namespace Ollok
     {
         public Startup(IConfiguration configuration)
         {
-            this.Configuration = configuration;
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; set; }
@@ -25,18 +24,12 @@ namespace Ollok
         public void ConfigureServices(IServiceCollection services)
         {
             string conString = Configuration["Data:ConnectionString"];
+
             services.AddDbContext<ApplicationDbContext>(opt => {
                 opt.UseSqlServer(conString);
             });
 
-            services.AddTransient<IProductRepository, EfProductRepoistory>();
-            services.AddTransient<ICategoryRepository, EfCategoryRepository>();
-            services.AddTransient<IWhishlistrepository, EfWishlistRepository>();
-            services.AddTransient<ICartRepository, EfCartRepository>();
-            services.AddTransient<ISizeRepository, EfSizeRepository>();
-            services.AddTransient<ICartLineRepository, EfCartLineRepository>();
-            services.AddTransient<IOrderRepository, EfOrderRepository>();
-            services.AddTransient<IPhotoRepository, EfPhotoRepository>();
+            services.AddDbEntities();
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -56,13 +49,15 @@ namespace Ollok
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
+
             app.UseStaticFiles();
+
             app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseMvc(routing => {
                 routing.MapAreaRoute(
                     name: "Admin",
